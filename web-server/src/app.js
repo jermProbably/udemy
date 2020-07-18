@@ -1,4 +1,4 @@
-const p = require('../../../print')
+const p = require('../print')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
@@ -7,6 +7,7 @@ const express = require('express')
 const hbs = require('hbs')
 
 const app = express()
+const port = process.env.PORT || 3030
 
 // Define paths for Express config
 const publicDir = path.join(__dirname, '../public')
@@ -68,13 +69,14 @@ app.get('/weather', (req, res) => {
                 })
             }
     
-            forecast(latitude, longitude, (error, {weather, temperature} = {}) => {
+            forecast(latitude, longitude, (error, {weather, temperature, humidity} = {}) => {
                 res.render('weather', {
                     title: 'Weather Title',
                     message: 'This is the information for ' + location,
                     name: 'jermz',
                     weather: weather,
                     temperature: temperature + ' degrees farhenheit.',
+                    humidity: humidity,
                     lat: latitude,
                     lon: longitude
                 })
@@ -102,11 +104,12 @@ app.get('/data', (req, res) => {
                 })
             }
     
-            forecast(latitude, longitude, (error, {weather, temperature} = {}) => {
+            forecast(latitude, longitude, (error, {weather, temperature, humidity} = {}) => {
                 res.send({
                     message:'/data Successfully found a location!',
                     weather: weather,
                     temperature: temperature + ' degrees farhenheit.',
+                    humidity: humidity,
                     lat: latitude,
                     lon: longitude,
                     loc: location
@@ -148,6 +151,6 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(3030, () => {
-    p.GREEN('Server is up on port', '3030')
+app.listen(port, () => {
+    p.GREEN('Server is up on port', port)
 })
