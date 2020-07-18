@@ -1,2 +1,1 @@
-# udemy
-Udemy Course from something
+# Please Read the Shit Out Of Me
